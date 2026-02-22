@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusAI - 上下文接力</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 320px;
+            min-height: 400px;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: white;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        h1 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-bottom: 15px;
+        }
+        
+        .status-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .status-value {
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .status-value.offline {
+            color: #ff4444;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            flex: 1;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            border: none;
+            color: black;
+            padding: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 136, 0.3);
+        }
+        
+        .btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+        
+        .recent-captures {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .capture-item {
+            font-size: 11px;
+            margin-bottom: 5px;
+            opacity: 0.8;
+            border-left: 2px solid #00ff88;
+            padding-left: 8px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 10px;
+            opacity: 0.5;
+        }
+        
+        .performance-mode {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+        
+        .mode-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 20px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: #00ff88;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #00ccff;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+        
+        .mode-description {
+            font-size: 10px;
+            opacity: 0.7;
+            text-align: center;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #00ff88;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">🤖</div>
+        <h1>NexusAI</h1>
+        <div class="subtitle">上下文接力系统 · RTX 4080 优化</div>
+    </div>
+    
+    <div class="status-card">
+        <div class="status-item">
+            <span>扩展状态:</span>
+            <span id="extensionStatus" class="status-value">加载中...</span>
+        </div>
+        <div class="status-item">
+            <span>后端服务:</span>
+            <span id="backendStatus" class="status-value">检查中<span class="loading"></span></span>
+        </div>
+        <div class="status-item">
+            <span>Ollama 状态:</span>
+            <span id="ollamaStatus" class="status-value">检查中<span class="loading"></span></span>
+        </div>
+        <div class="status-item">
+            <span>总捕获数:</span>
+            <span id="totalCaptures" class="status-value">0</span>
+        </div>
+        <div class="status-item">
+            <span>最后捕获:</span>
+            <span id="lastCapture" class="status-value">从未</span>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button id="toggleBtn" class="btn">启用捕获</button>
+        <button id="settingsBtn" class="btn secondary">设置</button>
+    </div>
+    
+    <div class="performance-mode">
+        <div class="mode-toggle">
+            <span>推理模式:</span>
+            <label class="switch">
+                <input type="checkbox" id="cloudModeToggle">
+                <span class="slider"></span>
+            </label>
+            <span id="modeLabel">本地推理</span>
+        </div>
+        <div class="mode-description" id="modeDescription">
+            🚀 RTX 4080 高性能模式
+        </div>
+    </div>
+    
+    <div class="recent-captures">
+        <div style="font-size: 12px; margin-bottom: 8px; opacity: 0.8;">最近捕获:</div>
+        <div id="capturesList">
+            <div class="capture-item">暂无捕获记录</div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        v1.0.0 · 专为 RTX 4080 优化
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

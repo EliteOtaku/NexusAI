@@ -1,0 +1,25 @@
+# NexusAI Storage 模块依赖
+# 专为 RTX 4080 GPU 优化的语义存储系统
+
+# 核心依赖
+sentence-transformers>=2.2.2
+numpy>=1.21.0
+
+# GPU 加速支持 (可选，但推荐)
+torch>=2.0.0
+
+# 数据库操作
+sqlite3
+
+# 数据处理
+pandas>=1.5.0
+
+# 日志和配置
+python-dotenv>=0.19.0
+
+# 开发工具
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+
+# 性能优化
+psutil>=5.9.0

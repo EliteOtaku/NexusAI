@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "NexusAI Assistant",
+  "version": "0.1.0",
+  "description": "The sovereign bridge for your AI conversations.",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://gemini.google.com/*",
+    "https://chat.deepseek.com/*",
+    "http://localhost:8000/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://gemini.google.com/*",
+        "https://chat.deepseek.com/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "action": {
+    "default_title": "NexusAI"
+  }
+}

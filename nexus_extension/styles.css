@@ -1,0 +1,122 @@
+/* NexusAI Extension Styles - 专为 RTX 4080 优化的 UI */
+
+.nexus-ai-highlight {
+    border-left: 3px solid #00ff88 !important;
+    background: rgba(0, 255, 136, 0.05) !important;
+    transition: all 0.3s ease !important;
+}
+
+.nexus-ai-captured {
+    position: relative !important;
+}
+
+.nexus-ai-captured::after {
+    content: "🤖 NexusAI" !important;
+    position: absolute !important;
+    top: -20px !important;
+    right: 10px !important;
+    background: linear-gradient(135deg, #00ff88, #00ccff) !important;
+    color: white !important;
+    padding: 2px 8px !important;
+    border-radius: 10px !important;
+    font-size: 10px !important;
+    font-weight: bold !important;
+    animation: nexusPulse 2s infinite !important;
+}
+
+@keyframes nexusPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* Gemini 特定样式优化 */
+[data-testid="conversation-turn"]:last-child {
+    border: 1px solid rgba(0, 255, 136, 0.3) !important;
+    border-radius: 8px !important;
+    margin: 5px 0 !important;
+    padding: 10px !important;
+}
+
+.model-response {
+    font-family: 'Segoe UI', system-ui, sans-serif !important;
+    line-height: 1.6 !important;
+}
+
+/* NexusAI 浮动控制面板 */
+#nexus-control-panel {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    background: rgba(0, 0, 0, 0.9) !important;
+    border: 2px solid #00ff88 !important;
+    border-radius: 15px !important;
+    padding: 15px !important;
+    color: white !important;
+    z-index: 10000 !important;
+    min-width: 200px !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+#nexus-control-panel h4 {
+    margin: 0 0 10px 0 !important;
+    color: #00ff88 !important;
+    text-align: center !important;
+}
+
+.nexus-control-btn {
+    background: #00ff88 !important;
+    border: none !important;
+    color: black !important;
+    padding: 8px 12px !important;
+    border-radius: 20px !important;
+    cursor: pointer !important;
+    margin: 5px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    transition: all 0.3s ease !important;
+}
+
+.nexus-control-btn:hover {
+    background: #00ccff !important;
+    transform: scale(1.05) !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    #nexus-ai-badge {
+        top: 5px !important;
+        right: 5px !important;
+        font-size: 10px !important;
+        padding: 6px 10px !important;
+    }
+    
+    #nexus-control-panel {
+        bottom: 10px !important;
+        right: 10px !important;
+        padding: 10px !important;
+    }
+}
+
+/* 暗色主题支持 */
+@media (prefers-color-scheme: dark) {
+    .nexus-ai-highlight {
+        background: rgba(0, 255, 136, 0.1) !important;
+    }
+}
+
+/* 加载动画 */
+.nexus-loading {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #00ff88;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: nexusSpin 1s linear infinite;
+}
+
+@keyframes nexusSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

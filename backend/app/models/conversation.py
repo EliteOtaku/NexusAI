@@ -11,5 +11,5 @@ class Conversation(Base):
     source = Column(String(50), nullable=False)
     user_message = Column(Text, nullable=False)
     ai_response = Column(Text, nullable=False)
-    metadata = Column(JSON, nullable=True)
+    conversation_metadata = Column(JSON, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
