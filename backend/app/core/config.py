@@ -8,7 +8,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "NexusAI"
     APP_VERSION: str = "0.1.0"
     DEBUG: bool = True
-    DATABASE_URL: str = "sqlite:///./data/nexusai.db"
+    DATABASE_URL: str = "sqlite:///D:/NexusAI/nexus_storage/scripts/nexus_storage/data/nexus_vault.db"
     CHROMA_PERSIST_DIRECTORY: str = "./data/chroma_db"
     CHROMA_COLLECTION_NAME: str = "conversations"
     EMBEDDING_MODEL: str = "all-MiniLM-L6-v2"

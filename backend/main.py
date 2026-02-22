@@ -30,10 +30,10 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://gemini.google.com", "https://chat.deepseek.com"],  # 明确指定域名
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["POST", "GET", "OPTIONS"],
+    allow_headers=["*"],  # 允许所有请求头
 )
 
 app.include_router(health.router, prefix="/api/v1/health", tags=["健康检查"])

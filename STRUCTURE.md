@@ -15,26 +15,26 @@ NexusAI 是一个专为 AI 重度用户设计的"个人逻辑枢纽"，通过本
 
 ```
 NexusAI/
-├── nexus_core/          # Python 后端核心
-├── nexus_extension/     # 浏览器插件
-├── nexus_desktop/       # Electron 桌面应用
-├── nexus_storage/       # 数据存储配置
+├── backend/            # Python 后端核心（FastAPI）
+├── nexus_extension/    # 浏览器插件（Manifest V3）
+├── nexus_desktop/      # Electron 桌面应用（待开发）
+├── nexus_storage/      # 数据存储配置（SQLite + ChromaDB）
 ├── scripts/            # 工具脚本
 ├── docs/              # 项目文档
 └── tests/             # 集成测试
 ```
 
-## 🔧 nexus_core/ - Python 后端核心
+## 🔧 backend/ - Python 后端核心
 
-**核心功能**：FastAPI 后端服务、逻辑蒸馏 Prompt、本地模型调用接口
+**核心功能**：FastAPI 后端服务、逻辑蒸馏 Prompt、本地模型调用接口、跨域同步支持
 
 ```
-nexus_core/
+backend/
 ├── app/                # FastAPI 应用主目录
 │   ├── __init__.py
-│   ├── main.py         # FastAPI 应用入口
+│   ├── main.py         # FastAPI 应用入口（含 CORS 配置）
 │   ├── core/           # 核心配置
-│   │   ├── config.py   # 应用配置管理
+│   │   ├── config.py   # 应用配置管理（多 LLM 提供商）
 │   │   ├── database.py # 数据库连接池
 │   │   └── security.py # 安全认证
 │   ├── api/            # API 路由层
@@ -43,7 +43,8 @@ nexus_core/
 │   │   │   │   ├── conversations.py  # 对话管理
 │   │   │   │   ├── search.py         # 语义搜索
 │   │   │   │   ├── ollama.py         # Ollama 集成
-│   │   │   │   └── plugin.py         # 插件通信
+│   │   │   │   ├── plugin.py         # 插件通信（数据接收）
+│   │   │   │   └── health.py         # 健康检查
 │   │   │   └── __init__.py
 │   │   └── __init__.py
 │   ├── models/         # SQLAlchemy 数据模型
@@ -54,7 +55,7 @@ nexus_core/
 │   │   ├── conversation.py
 │   │   └── __init__.py
 │   ├── services/       # 业务逻辑服务
-│   │   ├── embedding_service.py    # 向量嵌入服务
+│   │   ├── embedding_service.py    # 向量嵌入服务（GPU 加速）
 │   │   ├── vector_store.py         # 向量存储服务
 │   │   ├── summary_service.py      # 对话摘要服务
 │   │   └── __init__.py
@@ -66,7 +67,6 @@ nexus_core/
 │       ├── conversation.py
 │       └── __init__.py
 ├── requirements.txt    # Python 依赖
-├── Dockerfile         # 容器化部署
 └── README.md          # 后端说明文档
 ```
 

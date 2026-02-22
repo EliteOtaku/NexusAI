@@ -35,6 +35,69 @@ NexusAI 追求“安装即用”，不再强制要求复杂的 Docker 环境。
 
 ## 🚀 快速启动 (For Everyone)
 
+### 开发版本体验
+
+1. **克隆项目**:
+   ```bash
+   git clone https://github.com/your-username/NexusAI.git
+   cd NexusAI
+   ```
+
+2. **安装依赖**:
+   ```bash
+   # 创建虚拟环境
+   python -m venv venv
+   venv\Scripts\activate
+   
+   # 安装后端依赖
+   pip install fastapi uvicorn sqlalchemy sentence-transformers torch pydantic-settings httpx
+   
+   # 安装存储模块依赖
+   pip install -r nexus_storage/requirements.txt
+   ```
+
+3. **初始化数据库**:
+   ```bash
+   cd nexus_storage/scripts
+   python init_vault_db.py
+   ```
+
+4. **启动后端服务**:
+   ```bash
+   cd ../..
+   python backend/main.py
+   ```
+
+5. **安装浏览器插件**:
+   - 打开 Chrome/Edge 扩展管理页面 (`chrome://extensions/`)
+   - 开启"开发者模式"
+   - 点击"加载已解压的扩展程序"
+   - 选择 `nexus_extension/` 目录
+
+6. **开始使用**:
+   - 访问 `https://gemini.google.com` 或 `https://chat.deepseek.com`
+   - 开始对话，观察 NexusAI 徽章状态变化
+   - 测试逻辑蒸馏功能：访问 `http://127.0.0.1:8000/docs`
+
+### 最新功能特性
+
+#### 🔄 **智能跨域同步**
+- **CORS 优化**: 明确指定域名，避免跨域错误
+- **稳定连接**: 使用 127.0.0.1 替代 localhost，提升浏览器兼容性
+- **异常处理**: 完善的错误捕获和日志记录
+
+#### 🎯 **DeepSeek 专用优化**
+- **精准捕获**: 针对 `.ds-markdown` 和 `.ds-chat-bubble` 元素的专用选择器
+- **流式支持**: 500ms 延迟捕获，确保完整获取流式输出内容
+- **调试友好**: 详细的控制台日志，显示命中的元素信息
+
+#### ⚡ **性能优化**
+- **GPU 加速**: 专为 RTX 4080 优化的向量嵌入生成
+- **数据库稳定**: 绝对路径配置，避免相对路径问题
+- **多模式支持**: 本地推理（Ollama）和云端推理（OpenAI 兼容）
+
+### 生产版本（即将发布）
+
 1. **下载安装包**：从 Release 页面获取 NexusAI_Setup.exe。
 2. **环境预热**：
    - **小白用户**：直接安装 Ollama for Windows 原生版。NexusAI 将自动检测并拉取摘要模型。

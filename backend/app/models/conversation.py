@@ -5,8 +5,8 @@ from sqlalchemy import Column, Integer, String, Text, JSON, DateTime
 from sqlalchemy.sql import func
 from app.core.database import Base
 
-class Conversation(Base):
-    __tablename__ = "conversations"
+class Message(Base):
+    __tablename__ = "messages"
     id = Column(Integer, primary_key=True, index=True)
     source = Column(String(50), nullable=False)
     user_message = Column(Text, nullable=False)

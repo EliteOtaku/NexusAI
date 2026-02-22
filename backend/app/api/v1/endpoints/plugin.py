@@ -38,12 +38,16 @@ class DatabaseManager:
             self._connection.close()
             self._connection = None
 
-# 全局数据库管理器
-db_manager = DatabaseManager()
+# 全局数据库管理器 - 使用绝对路径
+db_manager = DatabaseManager(db_path="D:/NexusAI/nexus_storage/scripts/nexus_storage/data/nexus_vault.db")
 
 def get_db():
     """依赖注入：获取数据库连接"""
-    return db_manager.get_connection()
+    try:
+        return db_manager.get_connection()
+    except Exception as e:
+        logger.error(f"数据库连接失败: {e}")
+        raise HTTPException(status_code=500, detail="数据库连接失败")
 
 class IngestData(BaseModel):
     """数据接收模型"""
